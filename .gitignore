@@ -1,0 +1,5 @@
+.env
+.idea/
+news/migrations/
+main/__pycache__/
+news/__pycache__/
