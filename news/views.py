@@ -2,19 +2,11 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from news.models import News
-from news.sterializers import NewsSerializer
+from news.serializers import NewsSerializer
 
 
 @api_view(['GET'])
-def my_api_view(request):
-    data = {
-        'text': 'Hello world !'
-    }
-    return Response(data)
-
-
-@api_view(['GET'])
-def newlist_view(request):
+def new_list_view(request):
     tasks = News.objects.all()
     serializer = NewsSerializer(tasks, many=True)
 
@@ -39,8 +31,8 @@ def news_create_view(request):
 
 @api_view(['POST'])
 def news_update_view(request, id):
-    task = News.objects.get(id=id)
-    serializer = NewsSerializer(instance=task, data=request.data)
+    news = News.objects.get(id=id)
+    serializer = NewsSerializer(instance=news, data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
@@ -48,8 +40,8 @@ def news_update_view(request, id):
 
 @api_view(['DELETE'])
 def news_delete_view(request, id):
-    task = News.objects.get(id=id)
+    news = News.objects.get(id=id)
 
-    task.delete()
+    news.delete()
     return Response({"obj": "Delete"})
 
